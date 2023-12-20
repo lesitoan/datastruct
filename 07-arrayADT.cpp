@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 using namespace std;
 
@@ -18,7 +18,7 @@ void findDuplicates(int* arr, int n); //sorted
 void findDuplicatesHashTable(int* arr, int n); // cách 2 - sorted and unsort
 void findDuplicates2(int* arr, int n); // unsort o(n^2)
 void findAPairOfElementHashTable(int* arr, int n, int x); // vd: 10 = 7 + 3 = 6 + 5
-
+void findAPairOfElementSorted (int* arr, int n, int x); // sorted
 
 int main() {
 	/*
@@ -68,9 +68,14 @@ int main() {
 	//findDuplicatesHashTable(arr7, sizeof(arr7) / sizeof(int));
 
 	// find duplicates arr unsort
-	int arr8[] = { 4,5,8,4,5,1,2,2,2,0 };
+	//int arr8[] = { 4,5,8,4,5,1,2,2,2,0 };
 	//findDuplicates2(arr8, sizeof(arr8) / sizeof(int));
-	findAPairOfElementHashTable(arr8, sizeof(arr8) / sizeof(int), 10);
+	//findAPairOfElementHashTable(arr8, sizeof(arr8) / sizeof(int), 10);
+
+	// total 2 element arr sorted
+	int arr9[] = {2,4,6,7,8,9,10,14};
+	findAPairOfElementSorted(arr9, sizeof(arr9) / sizeof(int), 16);
+	
 	return 0;
 }
 
@@ -272,7 +277,6 @@ void findAPairOfElementHashTable(int* arr, int n, int x) {
 		if (arr[i] > max) max = arr[i];
 	}
 	int* arr1 = new int[max + 1] {0};
-	display(arr1, max + 1);
 	for (int i = 0; i < n; i++) {
 		if ((arr1[x - arr[i]] != 0) && (x - arr[i] <= max)) {
 			cout << x - arr[i] << " + " << arr[i] << " = " << x << endl;
@@ -282,6 +286,19 @@ void findAPairOfElementHashTable(int* arr, int n, int x) {
 	delete[] arr1;
 }
 
-
+void findAPairOfElementSorted (int* arr, int n, int x) {
+	int i = 0, j = n - 1;
+	while( i < j) {
+		if(arr[i] + arr[j] == x) {
+			cout << arr[i] << " + " << arr[j] << " = " << x << endl;
+			i++;
+			j--;
+		} else if ( arr[i] + arr[j] > x) {
+			j--;
+		} else {
+			i++;
+		}
+	}
+}
 
 
