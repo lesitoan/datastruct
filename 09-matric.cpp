@@ -47,8 +47,8 @@ class LowerTriangularMatric {
 		int* arr;
 	public:
 		LowerTriangularMatric(int n) {
-			this->n = n* (n + 1) / 2;
-			arr = new int[this->n];
+			this->n = n;
+			arr = new int[n* (n + 1) / 2];
 		};
 		~LowerTriangularMatric() {
 			delete[] arr;
@@ -69,11 +69,49 @@ class LowerTriangularMatric {
 		void display() {
 			for(int i = 1; i <= n; i++) {
 				for(int j = 1; j <= n; j++) {
-					if(i>= j) {
+					if(i >= j) {
 						int index = i*(i - 1) / 2 + (j - 1);
 						cout << arr[index] << "\t";
 					} else {
 						cout << 0 << "\t";
+					}
+				}
+				cout << endl;
+			}
+		}
+};
+
+class SymmetricMatric {
+	private:
+		int n;
+		int* arr;
+	public:
+		SymmetricMatric(int n) {
+			this->n = n;
+			arr = new int[n];
+		};
+		~SymmetricMatric() {
+			delete[] arr;
+			cout << "deleted lower symmetric matric !!!" << endl;
+		}
+		void set(int i, int j, int x) {
+			if(i == j) arr[i - 1] = x;
+		};
+		int get(int i, int j) {
+			if(i >= j) {
+				return arr[j - 1];
+			} else {
+				return arr[i - 1];
+			}
+
+		}
+		void display() {
+			for(int i = 1; i <= n; i++) {
+				for(int j = 1; j <= n; j++) {
+					if(i >= j) {
+						cout << arr[j - 1] << "\t";
+					} else {
+						cout << arr[i - 1] << "\t";
 					}
 				}
 				cout << endl;
@@ -95,20 +133,36 @@ int main() {
 //	diagonal->display();
 //	delete diagonal;
 
-	LowerTriangularMatric* lowerTriangular = new LowerTriangularMatric(n);
+//	LowerTriangularMatric* lowerTriangular = new LowerTriangularMatric(n);
+//	for(int i = 1; i <= n; i++) {
+//		for(int j = 1; j <= n; j++) {
+//			if(i >= j) {
+//				int value;
+//				cout <<"set gia tri m[" << i << "][" << j << "] = ";
+//				cin >> value;
+// 				lowerTriangular->set(i, j, value);
+//			}
+//		}
+//	}
+//	cout << lowerTriangular->get(3,2) << endl;
+//	lowerTriangular->display();
+//	delete lowerTriangular;
+
+	SymmetricMatric* symmetric = new SymmetricMatric(n);
 	for(int i = 1; i <= n; i++) {
-		for(int j = 1; j <= n; j++) {
-			if(i >= j) {
-				int value;
-				cout <<"set gia tri m[" << i << "][" << j << "] = ";
-				cin >> value;
- 				lowerTriangular->set(i, j, value);
-			}
-		}
+		int value;
+		cout <<"set gia tri m[" << i << "][" << i << "] = ";
+		cin >> value;
+ 		symmetric->set(i, i, value);
 	}
-	cout << lowerTriangular->get(3,2) << endl;
-	lowerTriangular->display();
-	delete lowerTriangular;
+	cout << symmetric->get(3,5) << endl;
+	symmetric->display();
+	delete symmetric;
+
+
+
+	int k;cin >> k;
+	getchar();
 	return 0;
 }
 

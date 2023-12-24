@@ -16,7 +16,7 @@ int main() {
 	std::cout << "fibonacci2 n: " << fibonacci2(10) <<std::endl;
 	std::cout << "combination nck: " << combination(2, 5) <<std::endl;
 	towerOfHaNoi(3, "a", "b", "c");
-	//getchar();
+	getchar();
 	return 0;
 }
 
