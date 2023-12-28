@@ -144,19 +144,89 @@ void deleteDuplicateSorted (Node* p) {
 		}
 }
 
-void reverse(Node* p) {
-	Node* pre = p;
-	Node* cur = p->next;
-	if(!cur->next) {
-		first = cur;
-		cur->next = pre;
-	} else {
-		reverse(cur);
-		cur->next = pre;	
+void reverse(Node* p) { // it khi dung
+	Node* t = p;
+	int length = 0;
+	while(t) {
+		length++;
+		t = t->next;
 	}
-	
+	t = p;
+	int* arr = new int[length];
+	for(int i = 0; i < length; i++) {
+		arr[i] = t->data;
+		t = t->next;
+	}
+	t = p;
+	while(t) {
+		length--;
+		t->data = arr[length];
+		t = t->next;
+	};
+	delete[] arr;
 }
 
+void reverseSliding(Node* &p) {
+	Node* pre = NULL;
+	Node* cur = NULL;
+	Node* after = p;
+	while(after) {
+		pre = cur;
+		cur = after;
+		after = after->next;
+		cur->next = pre;
+	}
+	first = cur;
+}
+
+void reverseRecursion(Node* p, Node* q) {
+	if(q) {
+		reverseRecursion(q, q->next);
+		q->next = p;
+	} else {
+		first = p;
+	}
+}
+
+Node* merge2LinkedList (Node* p, Node* q) {
+	Node* last = NULL;
+	Node* r = NULL;
+	if(p->data < q->data) {
+		r = last = p;
+		p = p->next;
+	} else {
+		r = last = q;
+		q= q->next;
+	}
+	r->next = NULL;
+	while(p && q) {
+		if(p->data < q->data) {
+			last->next = p;
+			last = p;
+			p = p->next;
+		} else {
+			last->next = q;
+			last = q;
+			q = q->next;
+		}
+		last->next=NULL;
+	}
+	if(p) last->next = p;
+	if(q) last->next = q;
+	return r;
+}
+
+bool checkLoopLinkedList(Node* p) {
+	Node* q = p;
+	Node* r = p;
+	do {
+		q = q->next;
+		r = r->next;
+		r = r ? r->next : r;
+	} while (q && r && q != r);
+	if(q == r) return true;
+	return false;
+}
 
 int main() {
 	int arr[] = {3,7,9,9,9,11,15};
@@ -171,9 +241,15 @@ int main() {
 //	insertNode(first, 0, 99);
 //	insertLinkedListSorted(first,1);
 //	deleteElement(first,1);
-	deleteDuplicateSorted(first);
-	reverse(first);
+//	deleteDuplicateSorted(first);
+//	reverseRecursion(NULL, first);
+//	Node* second = NULL;
+//	int arr1[] = {1,3,5,6,7};
+//	createLinkedList(second, arr1 , 5);
+//	Node* merge = merge2LinkedList(first, second);
 	displayLinkedlist(first);
+	
+	
 	getchar();
 	return 0;
 }
