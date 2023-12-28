@@ -102,24 +102,65 @@ void insertLinkedListSorted(Node* &p, int x) {
 }
 
 void deleteElement(Node* &p, int pos) {
+	Node* t = p;
 	if(pos == 1) {
 		p = p->next;
 	} else {
-		Node* t, *q = NULL;
-		t = p;
+		Node* q = NULL;
 		for(int i = 0; i < pos - 1 && t; i++) {
 			q = t;
 			t = t->next;
 		}
 		q->next = t->next;
-		delete t;
 	}
+	delete t;
 } 
+
+bool checkSorted (Node* p) {
+	int preData = p->data;
+	Node* t = p->next;
+	while(t) {
+		if(preData > t->data) return false;
+		preData = t->data;
+		t = t->next;
+	}
+	return true;
+}
+
+void deleteDuplicateSorted (Node* p) {
+	Node* preNode = p;
+	Node* curNode = p->next;
+	while(curNode != NULL) {
+		if(preNode->data == curNode->data) {
+			preNode->next = curNode->next;
+			Node* t = curNode;
+			curNode = curNode->next;
+			delete t;
+			
+		} else {
+			preNode = curNode;
+	}
+			curNode = curNode->next;	
+		}
+}
+
+void reverse(Node* p) {
+	Node* pre = p;
+	Node* cur = p->next;
+	if(!cur->next) {
+		first = cur;
+		cur->next = pre;
+	} else {
+		reverse(cur);
+		cur->next = pre;	
+	}
+	
+}
 
 
 int main() {
-	int arr[] = {3,5,7,9,11,15};
-	int n = 6;
+	int arr[] = {3,7,9,9,9,11,15};
+	int n = sizeof(arr) / sizeof(int);
 	createLinkedList(first, arr, n);
 //	displayLinkedlist(first);
 //	cout << "\n" << count(first);
@@ -129,9 +170,17 @@ int main() {
 //	cout << searchRecursion(first, 7) << endl;
 //	insertNode(first, 0, 99);
 //	insertLinkedListSorted(first,1);
-	deleteElement(first,1);
+//	deleteElement(first,1);
+	deleteDuplicateSorted(first);
+	reverse(first);
 	displayLinkedlist(first);
 	getchar();
 	return 0;
 }
+
+
+
+
+
+
 
