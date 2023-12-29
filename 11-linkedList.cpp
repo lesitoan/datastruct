@@ -7,6 +7,63 @@ struct Node {
 	Node* next;
 }* first = NULL;
 
+void createLinkedList(Node* &p, int* arr, int n);
+void displayLinkedlist (Node* p);
+int count(Node* p);
+int total(Node* p);
+int maxOfLinkedList(Node* p);
+Node* search(Node* p, int x);
+Node* searchRecursion(Node* p, int x);
+void insertNode(Node* &p, int pos, int x);
+void insertLinkedListSorted(Node* &p, int x);
+void deleteElement(Node* &p, int pos);
+bool checkSorted (Node* p);
+void deleteDuplicateSorted (Node* p);
+void reverse(Node* p);
+void reverseSliding(Node* &p);
+void reverseRecursion(Node* p, Node* q);
+Node* merge2LinkedList (Node* p, Node* q);
+bool checkLoopLinkedList(Node* p);
+
+void createCircularLinkedList(Node* p);
+void displayCircular(Node* head);
+void displayCircularRecursion(Node* head);
+
+int main() {
+	int arr[] = {3,7,9,9,9,11,15};
+	int n = sizeof(arr) / sizeof(int);
+	createLinkedList(first, arr, n);
+	
+	/*-----------linear linked list----------------
+	displayLinkedlist(first);
+	cout << "\n" << count(first);
+	cout << "\n" << total(first) << endl;
+	cout << maxOfLinkedList(first) << endl;
+	cout << search(first, 7) << endl;
+	cout << searchRecursion(first, 7) << endl;
+	insertNode(first, 0, 99);
+	insertLinkedListSorted(first,1);
+	deleteElement(first,1);
+	deleteDuplicateSorted(first);
+	reverseRecursion(NULL, first);
+	Node* second = NULL;
+	int arr1[] = {1,3,5,6,7};
+	createLinkedList(second, arr1 , 5);
+	Node* merge = merge2LinkedList(first, second);
+	displayLinkedlist(first);
+	*/
+
+
+	/*----------cricular linked list-------------*/
+	createCircularLinkedList(first);
+	displayCircularRecursion(first);
+	
+	
+	getchar();
+	return 0;
+}
+
+
 void createLinkedList(Node* &p, int* arr, int n) {
 	p= new Node;
 	p->data = arr[0];
@@ -215,48 +272,29 @@ Node* merge2LinkedList (Node* p, Node* q) {
 	if(q) last->next = q;
 	return r;
 }
-
-bool checkLoopLinkedList(Node* p) {
+oid createCircularLinkedList(Node* p) {
 	Node* q = p;
-	Node* r = p;
+	Node* last = p;
+	while(last) {
+		q = last;
+		last = last->next;
+	}
+	q->next = p;
+};
+
+void displayCircular(Node* head) {
+	Node* last = head;
 	do {
-		q = q->next;
-		r = r->next;
-		r = r ? r->next : r;
-	} while (q && r && q != r);
-	if(q == r) return true;
-	return false;
+		cout << last->data << "\t";
+		last = last->next;
+	} while (last != head);
 }
 
-int main() {
-	int arr[] = {3,7,9,9,9,11,15};
-	int n = sizeof(arr) / sizeof(int);
-	createLinkedList(first, arr, n);
-//	displayLinkedlist(first);
-//	cout << "\n" << count(first);
-//	cout << "\n" << total(first) << endl;
-//	cout << maxOfLinkedList(first) << endl;
-//	cout << search(first, 7) << endl;
-//	cout << searchRecursion(first, 7) << endl;
-//	insertNode(first, 0, 99);
-//	insertLinkedListSorted(first,1);
-//	deleteElement(first,1);
-//	deleteDuplicateSorted(first);
-//	reverseRecursion(NULL, first);
-//	Node* second = NULL;
-//	int arr1[] = {1,3,5,6,7};
-//	createLinkedList(second, arr1 , 5);
-//	Node* merge = merge2LinkedList(first, second);
-	displayLinkedlist(first);
-	
-	
-	getchar();
-	return 0;
+void displayCircularRecursion(Node* head) {
+	static int check = 0;
+	if(head != first || check == 0) {
+		cout << head->data << "\t";
+		check = 1;
+		displayCircularRecursion(head->next);
+	}
 }
-
-
-
-
-
-
-
