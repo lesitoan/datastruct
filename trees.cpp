@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stack>
 #include <queue>
+#include <vector>
 using namespace std;
 
 struct Node {
@@ -22,9 +23,24 @@ public:
     void preOrder() { preOrder(root); }
     void iterativePreOrder();
     void iterativePostOrder();
+    void levelOrder();
 };
 
-
+void generatingTree(int* p, int m, int* q, int n) {
+	if(m != n) cout << "invalid data input" << endl;
+	for(int i = 0; i < m; i++) {
+		int check = m;
+		vector<int> right;
+		vector<int> left;
+		for( int j = 0; j < n; j++) {
+			if(check == m) {
+				right.push_back(q[j]);
+			}else if(p[i] == q[j]) {
+				
+			}
+		}
+	}
+}
 
 
 int main() {
@@ -32,6 +48,8 @@ int main() {
 	tree->create();
 //	tree->iterativePreOrder();
 	tree->iterativePostOrder();
+	cout << endl;
+	tree->levelOrder();
 	delete tree;
 	int k; cin >> k;
 	getchar();
@@ -122,4 +140,18 @@ void Tree::iterativePostOrder() {
 			cout << st2.top() << "\t";
 			st2.pop();
 		}
+	}
+	
+void Tree::levelOrder() {
+    	Node* t = root;
+    	std::queue<Node*> q;
+    	q.push(t);
+    	while(!q.empty()) {
+    		t = q.front();
+    		q.pop();
+    		cout << t->data << "\t";
+    		if(t->lChild) q.push(t->lChild);
+    		if(t->rChild) q.push(t->rChild);
+		}
+		cout << endl;
 	}
