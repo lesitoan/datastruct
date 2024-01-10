@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <stack>
 
 using namespace std;
 struct Node {
@@ -29,31 +30,38 @@ public:
     
     void deleteNode(Node* &t, int key);
 	void deleteNode(int key) { deleteNode(root, key); };
+	
+	void createBSTFromPreOder(int* pre, int length);
 };
-
 
 
 int main() {
 	BST* bst = new BST;
+	int arr[] = {30, 20, 10, 15, 25, 40, 50, 45};
+	bst->createBSTFromPreOder(arr, 8);
+	
+	
 	bst->insert(9);
-	bst->insert(15);
-	bst->insert(5);
-	bst->insert(20);
-	bst->insert(16);
-	bst->insert(8);
-	bst->insert(12);
-	bst->insert(3);
-	bst->insert(6);
-	Node* r = bst->search(60);
-	if(r) {
-		cout << "found" << endl;
-	} else {
-		cout << "not found" << endl;
-	}
+//	bst->insert(15);
+//	bst->insert(5);
+//	bst->insert(20);
+//	bst->insert(16);
+//	bst->insert(8);
+//	bst->insert(12);
+//	bst->insert(3);
+//	bst->insert(6);
+//	Node* r = bst->search(60);
+//	if(r) {
+//		cout << "found" << endl;
+//	} else {
+//		cout << "not found" << endl;
+//	}
+//	bst->preOrder();
+//	cout << endl;
+//	bst->deleteNode(9);
 	bst->preOrder();
-	cout << endl;
-	bst->deleteNode(9);
-	bst->preOrder();
+
+	
 	int k; cin >> k;
 	getchar();
 	return 0;
@@ -145,4 +153,41 @@ void BST::deleteNode(Node* &t, int key) {
 			}
 		}
     	
+	}
+
+void BST::createBSTFromPreOder(int* pre, int length) {
+		if(root) return;
+		root = new Node;
+		root->data = pre[0];
+		root->lChild = root->rChild = nullptr;
+		Node* p = root;
+		std::stack<Node*> st;
+		for(int i=1; i<length; i++) {
+			//insert left
+			if(pre[i] < p->data) {
+				st.push(p);
+				Node* t = new Node;
+				t->data = pre[i];
+				t->lChild = t->rChild = nullptr;
+				p->lChild = t;
+				p = t;
+			//insert right
+			} else if(pre[i] > p->data) {
+				if(st.empty() || pre[i] < st.top()->data) {
+					Node* t = new Node;
+					t->data = pre[i];
+					t->lChild = t->rChild = nullptr;
+					p->rChild = t;
+					p = t;
+				} else if(pre[i] > st.top()->data) {
+					p = st.top();
+					st.pop();
+					Node* t = new Node;
+					t->data = pre[i];
+					t->lChild = t->rChild = nullptr;
+					p->rChild = t;
+					p = t;
+				}
+			}
+		}
 	}
