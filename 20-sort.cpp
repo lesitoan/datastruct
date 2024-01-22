@@ -20,11 +20,25 @@ void bubbleSort(int* arr, int n) {
 	} 
 }
 
+//INSERT SORT
+void insertSort(int* arr, int n) {
+	for(int i = 1; i < n; i++) {
+		int key = arr[i];
+		int j = i - 1;
+		while(j > -1 && key < arr[j]) {
+			arr[j+1] = arr[j];
+			j--;
+		}
+		arr[j+1] = key;
+	}
+}
+
 
 int main() {
-	int arr[5] = {1,2,3,4,5};
-	bubbleSort(arr, 5);
-	displayArr(arr, 5);
+	int arr[9] = {8,5,7,3,2, -10, 100, 5, 50};
+//	bubbleSort(arr, 5);
+	insertSort(arr, 9);
+	displayArr(arr, 9);
 	
 	getchar();
 	return 0;
