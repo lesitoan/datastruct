@@ -45,13 +45,39 @@ void selectionSort(int* arr, int n) {
 }
 
 
+int partition(int* arr, int l, int r) {
+	int key = l;
+	l++;
+	do {
+		while(arr[l] < arr[key]) l++;
+		while(arr[r] > arr[key]) r--;
+		if(l < r) {
+			swap(arr[l], arr[r]);
+			l++; r--;
+		}
+	} while(l < r);
+	swap(arr[key], arr[r]);
+	return r;
+}
+
+void quickSort(int* arr, int l, int r) {
+	
+	if(l < r) {
+		int indexOfEleSorted = partition(arr, l, r);
+		displayArr(arr, 9);
+		quickSort(arr, l, indexOfEleSorted-1);
+		quickSort(arr, indexOfEleSorted+1, r);
+	}
+}
+
+
 int main() {
-	int arr[9] = {8,5,7,3,2, -10, 100, 5, 50};
+	int arr[9] = {1,2,3,4,5,6,7,8,9};
 //	bubbleSort(arr, 5);
 //	insertSort(arr, 9);
-	selectionSort(arr, 9);
-	displayArr(arr, 9);
-	
+//	selectionSort(arr, 9);
+	quickSort(arr, 0, 8);
+//	displayArr(arr, 9);
 	getchar();
 	return 0;
 }
