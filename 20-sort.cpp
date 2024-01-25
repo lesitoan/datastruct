@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm> 
 #include <stack>
 using namespace std;
 
@@ -90,16 +91,43 @@ void mergeSortRecursive(int* arr, int l, int r) {
 	}
 }
 
+// COUNT SORT
+void countSort(int* arr, int n) {
+	// find max of arr
+	int maxValue = arr[0];
+	int minValue = arr[0];
+	for(int i = 1; i < n; i++) {
+		maxValue = max(maxValue, arr[i]);
+		minValue = min(minValue, arr[i]);
+	}
+	// create new array
+	int* newArr = new int[maxValue - minValue + 1]{0};
+	for(int i = 0; i < n; i++) {
+		newArr[arr[i] - minValue]++;
+	}
+	// fill into array
+	int index = 0;
+	for(int i = 0; i < (maxValue - minValue + 1); i++) {
+		while(newArr[i] != 0) {
+			arr[index] = i + minValue;
+			newArr[i]--;
+			index++;
+		}
+	}
+	delete[] newArr;
+}
+
 
 int main() {
-	int n = 12;
-	int arr[n] = {10,5,2,4,7,3,8,9, 11, 1, -10, -20};
+	int n = 11;
+	int arr[n] = {1,1,7,9,3,4,6,9,1,3,5};
 //	bubbleSort(arr, n);
 //	insertSort(arr, n);
 //	selectionSort(arr, n);
 //	quickSort(arr, 0, n);
 //	mergeSort(arr, n);
-	mergeSortRecursive(arr, 0, 11);
+//	mergeSortRecursive(arr, 0, n-1);
+	countSort(arr, n);
 	displayArr(arr, n);
 	getchar();
 	return 0;
