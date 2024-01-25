@@ -1,9 +1,10 @@
 #include <iostream>
+#include <stack>
 using namespace std;
 
 void swap(int& a, int& b);
 void displayArr(int* arr, int n);
-
+int partition(int* arr, int l, int r);
 
 //BUBBLE SORT
 void bubbleSort(int* arr, int n) {
@@ -44,24 +45,8 @@ void selectionSort(int* arr, int n) {
 	}
 }
 
-
-int partition(int* arr, int l, int r) {
-	int key = l;
-	l++;
-	do {
-		while(arr[l] < arr[key]) l++;
-		while(arr[r] > arr[key]) r--;
-		if(l < r) {
-			swap(arr[l], arr[r]);
-			l++; r--;
-		}
-	} while(l < r);
-	swap(arr[key], arr[r]);
-	return r;
-}
-
+//QUICK SORT
 void quickSort(int* arr, int l, int r) {
-	
 	if(l < r) {
 		int indexOfEleSorted = partition(arr, l, r);
 		displayArr(arr, 9);
@@ -71,13 +56,65 @@ void quickSort(int* arr, int l, int r) {
 }
 
 
+void mergeTwoList(int* arr, int l, int mid, int r) {
+	stack<int> st;
+	int i = l, j = mid+1;
+	while(i <= mid && j <= r) {
+		if(arr[i] < arr[j]) {
+			st.push(arr[i]);
+			i++;
+		} else {
+			st.push(arr[j]);
+			j++;
+		}
+	}
+	while(i <= mid) {
+		st.push(arr[i]);
+		i++;
+	}
+	while(j <= r) {
+		st.push(arr[j]);
+		j++;
+	}
+	while(!st.empty()) {
+		arr[r] = st.top();
+		st.pop();
+		r--;
+	}
+}
+
+void mergeSort(int* arr, int n) {
+	int p = 2;
+	for(p; p<=n; p*=2) {
+		int i = 0, l, r, mid;
+		for(i; i+p-1<n; i= i+p) {
+			l = i;
+			r = i+p-1;
+			mid = (l + r - 1) / 2;
+			mergeTwoList(arr,l, mid, r);
+		}
+		if(n-i>p/2) { 
+			l = i;
+			r = i+p-1;
+			int mid = (l + r - 1) / 2;
+			mergeTwoList(arr, i, mid, n-1); 
+		} 
+	}
+	if(p/2 < n-1) {
+		mergeTwoList(arr,0, p/2-1, n-1);
+	}
+}
+
+
 int main() {
-	int arr[9] = {1,2,3,4,5,6,7,8,9};
-//	bubbleSort(arr, 5);
-//	insertSort(arr, 9);
-//	selectionSort(arr, 9);
-	quickSort(arr, 0, 8);
-//	displayArr(arr, 9);
+	int n = 12;
+	int arr[n] = {10,5,2,4,7,3,8,9, 11, 1, -10, -20};
+//	bubbleSort(arr, n);
+//	insertSort(arr, n);
+//	selectionSort(arr, n);
+//	quickSort(arr, 0, n);
+	mergeSort(arr, n);
+	displayArr(arr, n);
 	getchar();
 	return 0;
 }
@@ -93,4 +130,19 @@ void displayArr(int* arr, int n) {
 		cout << arr[i] << "\t";
 	}
 	cout<< endl;
+}
+
+int partition(int* arr, int l, int r) {
+	int key = l;
+	l++;
+	do {
+		while(arr[l] < arr[key]) l++;
+		while(arr[r] > arr[key]) r--;
+		if(l < r) {
+			swap(arr[l], arr[r]);
+			l++; r--;
+		}
+	} while(l < r);
+	swap(arr[key], arr[r]);
+	return r;
 }
