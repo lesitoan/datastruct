@@ -1,6 +1,9 @@
 #include <iostream>
 #include <algorithm> 
 #include <stack>
+#include <list>
+#include <cmath>
+
 using namespace std;
 
 void swap(int& a, int& b);
@@ -117,17 +120,51 @@ void countSort(int* arr, int n) {
 	delete[] newArr;
 }
 
+//RADIX SORT -> sort with large number
+void radixSort(int* arr, int n) {
+	
+	int maxValue = arr[0];
+	for(int i = 1; i < n; i++) {
+		maxValue = max(maxValue, arr[i]);
+	}
+	// count number of max element
+	int count = 0;
+	while(maxValue != 0) {
+		maxValue /= 10;
+		count++;
+	}
+	
+	list<int> arrOfList[10];
+	for(int i = 0; i < count; i++) {
+		// fill element into new arr
+		for(int j = 0; j < n; j++) {
+			int index = (int)(arr[j] / pow(10, i)) % 10;
+			arrOfList[index].push_back(arr[j]);
+		}
+		int k = 0;
+		// modify arr
+		for(int j = 0; j <= 9; j++) {
+			while(!arrOfList[j].empty()) {
+				arr[k] = arrOfList[j].front();
+				arrOfList[j].pop_front();
+				k++;
+			}
+		}
+	}
+}
+
 
 int main() {
 	int n = 11;
-	int arr[n] = {1,1,7,9,3,4,6,9,1,3,5};
+	int arr[n] = {237,146,259,348,152,163,235,48,36,62,999999};
 //	bubbleSort(arr, n);
 //	insertSort(arr, n);
 //	selectionSort(arr, n);
 //	quickSort(arr, 0, n);
 //	mergeSort(arr, n);
 //	mergeSortRecursive(arr, 0, n-1);
-	countSort(arr, n);
+//	countSort(arr, n);
+	radixSort(arr, n);
 	displayArr(arr, n);
 	getchar();
 	return 0;
