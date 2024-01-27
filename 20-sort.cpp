@@ -153,10 +153,25 @@ void radixSort(int* arr, int n) {
 	}
 }
 
+// SHELL SORT
+void shellSort(int* arr, int n) {
+	int gap = n / 2;
+	while(gap >= 1) {
+		for(int i = gap; i < n; i++) {
+			int j = i;
+			while(j >= gap && arr[j] < arr[j-gap]) {
+				swap(arr[j], arr[j-gap]);
+				j-=gap;
+			}
+		}
+		gap /= 2;
+	}
+}
+
 
 int main() {
-	int n = 11;
-	int arr[n] = {237,146,259,348,152,163,235,48,36,62,999999};
+	int n = 14;
+	int arr[n] = {9,5,16,8,13,6,12,10,4,2,3,100,-10,-20};
 //	bubbleSort(arr, n);
 //	insertSort(arr, n);
 //	selectionSort(arr, n);
@@ -164,7 +179,9 @@ int main() {
 //	mergeSort(arr, n);
 //	mergeSortRecursive(arr, 0, n-1);
 //	countSort(arr, n);
-	radixSort(arr, n);
+//	radixSort(arr, n);
+	displayArr(arr, n);
+	shellSort(arr, n);
 	displayArr(arr, n);
 	getchar();
 	return 0;
